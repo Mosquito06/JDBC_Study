@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import JDBC_Study.dao.DepartmentDao;
 import JDBC_Study.dto.Department;
+import JDBC_Study.jdbc.DBCon;
 
 public class TestMain {
 
@@ -22,21 +23,34 @@ public class TestMain {
 
 		dbCon.connCloser();*/
 	
+		Department();
+		
+		
+		
+		DBCon.getInstance().connCloser();
+		
+	}
+
+	private static void Department() {
 		DepartmentDao dao = DepartmentDao.getInstance();
 		//showDepartmentList(dao);
 		
-		Department dept = new Department(1, "마케팅", 10);
-		/*dao.insertDepartment(dept);
+		Department dept = new Department(5, "생산", 0);
+		dao.insertDepartment(dept);
 		showDepartmentList(dao);
+		System.out.println("=================================================");
 		
-		dao.deleteDepartment(dept);
-		showDepartmentList(dao);*/
-		
-		/*Department dept2 = dao.selectDepartmentByNo(dept);
-		JOptionPane.showMessageDialog(null, dept2);*/
-		
+		dept.setDeptName("신제품기획");
 		dao.updateDepartment(dept);
 		showDepartmentList(dao);
+		System.out.println("=================================================");
+		
+		Department dept2 = dao.selectDepartmentByNo(dept);
+		JOptionPane.showMessageDialog(null, dept2);
+				
+		dao.deleteDepartment(dept);
+		showDepartmentList(dao);
+		System.out.println("=================================================");
 	}
 
 	private static void showDepartmentList(DepartmentDao dao) {

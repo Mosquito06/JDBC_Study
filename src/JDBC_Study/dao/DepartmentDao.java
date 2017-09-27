@@ -49,7 +49,6 @@ public class DepartmentDao {
 			jdbcUtil.close(rs);
 			jdbcUtil.close(pstmt);
 		}
-
 		return lists;
 	}
 
@@ -59,16 +58,18 @@ public class DepartmentDao {
 		try {
 			pstmt = DBCon.getInstance().getConn().prepareStatement(sql);
 			pstmt.setInt(1, dept.getDeptNO());
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()){
-				department = new Department(rs.getInt("deptNO"), rs.getString("deptName"),rs.getInt("floor"));
+
+			while (rs.next()) {
+				department = new Department(rs.getInt("deptNO"), rs.getString("deptName"), rs.getInt("floor"));
 			}
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			jdbcUtil.close(rs);
+			jdbcUtil.close(pstmt);
 		}
 		return department;
 	}
@@ -80,34 +81,39 @@ public class DepartmentDao {
 			pstmt.setInt(1, dept.getDeptNO());
 			pstmt.setString(2, dept.getDeptName());
 			pstmt.setInt(3, dept.getFloor());
-			
+
 			int res = pstmt.executeUpdate();
-			if(res < 0){
+			if (res < 0) {
 				System.out.println("삽입 실패");
 				return;
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			jdbcUtil.close(pstmt);
 		}
-		
+
 	}
 
 	public void updateDepartment(Department dept) {
-		sql = "update department set deptname = '마케팅' where deptNo = ?";
+		sql = "update department set deptname = ? where deptNo = ?";
 		try {
 			pstmt = DBCon.getInstance().getConn().prepareStatement(sql);
-			pstmt.setInt(1, dept.getDeptNO());
-			
+
+			pstmt.setString(1, dept.getDeptName());
+			pstmt.setInt(2, dept.getDeptNO());
+
 			int res = pstmt.executeUpdate();
-			if(res > 0)
-			{
+			if (res > 0) {
 				JOptionPane.showMessageDialog(null, "수정을 완료하였습니다.");
-			}else{
+			} else {
 				JOptionPane.showMessageDialog(null, "수정을 완료하지 못했습니다.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			jdbcUtil.close(pstmt);
 		}
 	}
 
@@ -116,19 +122,18 @@ public class DepartmentDao {
 		try {
 			pstmt = DBCon.getInstance().getConn().prepareStatement(sql);
 			pstmt.setInt(1, dept.getDeptNO());
-			
+
 			int res = pstmt.executeUpdate();
-			if(res > 0)
-			{
+			if (res > 0) {
 				JOptionPane.showMessageDialog(null, "삭제를 완료하였습니다.");
-			}else{
+			} else {
 				JOptionPane.showMessageDialog(null, "삭제를 완료하지 못했습니다.");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			jdbcUtil.close(pstmt);
 		}
-		
-		
+
 	}
 }
