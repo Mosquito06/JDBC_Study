@@ -46,6 +46,12 @@ class Student { // dto 클래스 작성(원래는 다른 클래스에서 작성해야함)
 		this.dept = dept;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("Student [id=%s, name=%s, dept=%s]", id, name, dept);
+	}
+	
+
 }
 
 public class DBConnection {
@@ -63,7 +69,7 @@ public class DBConnection {
 			con = DriverManager.getConnection(url, user, "");
 			System.out.println("Database에 연결 성공");
 
-			showList(con);
+			/*showList(con);
 			insertStudent(con, "1234567", "홍길동", "활빈당");
 			showList(con);
 
@@ -73,7 +79,7 @@ public class DBConnection {
 
 			Student delStd = new Student("홍길동");
 			deleteStudent(con, delStd);
-			showList(con);
+			showList(con);*/
 
 			// 아래 방법은 잘 사용안하고 반복문으로 결과 출력
 			/*
@@ -105,7 +111,7 @@ public class DBConnection {
 			 List<Student> stdList = getStudents(con); 
 			 for(Student s : stdList){ 
 				 System.out.println(s);
-			 }
+			}
 			 
 		} catch (ClassNotFoundException e) {
 			System.err.println("jdbc Driver가 존재하지 않습니다.");
